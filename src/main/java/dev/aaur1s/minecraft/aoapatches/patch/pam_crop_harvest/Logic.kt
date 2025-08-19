@@ -1,0 +1,36 @@
+package dev.aaur1s.minecraft.aoapatches.patch.pam_crop_harvest
+
+import net.minecraft.block.CropsBlock
+import net.minecraft.block.StemGrownBlock
+import net.minecraft.entity.player.ServerPlayerEntity
+import net.minecraftforge.event.entity.player.PlayerInteractEvent
+import net.tslat.aoa3.common.registration.custom.AoASkills
+import net.tslat.aoa3.util.BlockUtil as AoABlockUtil
+import net.tslat.aoa3.util.PlayerUtil as AoAPlayerUtil
+
+/**
+ * Ported logic from [this](https://github.com/Tslat/Advent-Of-Ascension/blob/e97502da8bdd6081b6acc4635f03296d3e2e69a0/source/player/skill/FarmingSkill.java#L32) method
+ */
+fun handleCropHarvest(event: PlayerInteractEvent.RightClickBlock) {
+    if (event.world.isClientSide) return
+
+    val player = event.player as ServerPlayerEntity
+    val blockState = event.world.getBlockState(event.pos)
+    val block = blockState.block
+
+    with(AoAPlayerUtil.getSkill(player, AoASkills.FARMING.get())) {
+        val canGainXp = canGainXp(true)
+        val canHarvest = AoABlockUtil.canPlayerHarvest(blockState, player, event.world, event.pos)
+        if (!canGainXp || !canHarvest) return
+
+        val xpTime = when (block) {
+            is CropsBlock if (block.isMaxAge(blockState)) -> 7f * block.maxAge
+            is StemGrownBlock -> 12f
+            else -> 0f
+        }
+
+        if (xpTime > 0f) {
+            adjustXp(AoAPlayerUtil.getTimeBasedXpForLevel(getLevel(true), xpTime), false, false)
+        }
+    }
+}

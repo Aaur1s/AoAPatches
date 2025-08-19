@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "dev.aaur1s.minecraft.aoapatches.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "minVersion": "0.8",
+  "refmap": "aoapatches.mixins.refmap.json",
+  "client": [
+  ],
+  "mixins": [
+    "pam_crop_harvest.CropHarvestMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
