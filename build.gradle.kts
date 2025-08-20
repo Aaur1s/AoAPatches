@@ -14,9 +14,10 @@ val minecraftVersion: String by ext
 val forgeVersion: String by ext
 val modId: String by ext
 val modName: String by ext
+val modVersion: String by ext
 
 group = properties["group"].toString()
-version = properties["version"].toString()
+version = "$minecraftVersion-$modVersion"
 
 java {
     withSourcesJar()
@@ -117,6 +118,8 @@ tasks {
 
         upload(1330425, jar) {
             releaseType = "release"
+            changelog = readCurrentVersionChangelog()
+            changelogType = "markdown"
             addGameVersion(minecraftVersion)
             addModLoader("forge")
             addRequirement("advent-of-ascension-nevermine")
@@ -127,12 +130,32 @@ tasks {
 modrinth {
     token = project.properties["modrinth.token"].toString()
     projectId = "aoa-patches"
-    versionNumber = "$minecraftVersion-$version"
+    versionNumber = version.toString()
     versionType = "release"
+    changelog = readCurrentVersionChangelog()
     uploadFile.set(tasks.jar)
     gameVersions.add(minecraftVersion)
     loaders.add("forge")
     dependencies {
         required.version("adventofascension", "1.16.5-3.6.11")
     }
+}
+
+fun readCurrentVersionChangelog(): String {
+    val changelogText = file("CHANGELOG.md").readText()
+
+    val versionStartIndex = changelogText.indexOf("\n## [$version]")
+
+    if (versionStartIndex == -1) {
+        error("CHANGELOG.md does not contain version [$version]")
+    }
+
+    val versionEndIndex = run {
+        val index = changelogText.indexOf("\n## ", startIndex = versionStartIndex+2)
+        if (index != -1) index else changelogText.length
+    }
+
+    val resultVersionChangelog = changelogText.substring(versionStartIndex, versionEndIndex)
+
+    return resultVersionChangelog
 }
