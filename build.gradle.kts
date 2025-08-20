@@ -137,7 +137,8 @@ modrinth {
     gameVersions.add(minecraftVersion)
     loaders.add("forge")
     dependencies {
-        required.version("adventofascension", "1.16.5-3.6.11")
+        val aoaVersion: String by project.ext
+        required.version("adventofascension", aoaVersion)
     }
 }
 
