@@ -1,13 +1,14 @@
 modLoader = "javafml"
 loaderVersion = "[36,)"
-issueTrackerURL = ""
-license = "MIT"
+issueTrackerURL = "https://github.com/Aaur1s/AoAPatches/issues"
+license = "ARR"
 
 [[mods]]
 modId = "${modId}"
 version = "${version}"
 displayName = "${modName}"
 authors = "Aaur1s"
+logoFile = "icon.png"
 description = '''
 Cool mod made by Aaur1s!
 '''

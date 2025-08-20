@@ -7,7 +7,8 @@
   "client": [
   ],
   "mixins": [
-    "pam_crop_harvest.CropHarvestMixin"
+    "crop_harvest.pam.CropHarvestMixin",
+    "crop_harvest.quark.SimpleHarvestModuleMixin"
   ],
   "injectors": {
     "defaultRequire": 1
