@@ -88,6 +88,9 @@ dependencies {
     implementation(fg.deobf("maven.modrinth:autoreglib:1.6-49"))
     implementation(fg.deobf("curse.maven:pams-harvestcraft-2-food-core-372534:3190867"))
     implementation(fg.deobf("curse.maven:pams-harvestcraft-2-crops-361385:3276350"))
+
+    runtimeOnly(fg.deobf("maven.modrinth:fluid-cells:1.16.5-2.3"))
+
     annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
 }
 
@@ -104,6 +107,10 @@ tasks {
         filesMatching(setOf("META-INF/mods.toml", "pack.mcmeta")) {
             expand(remap)
         }
+    }
+
+    jar {
+        finalizedBy("reobfJar")
     }
 
     afterEvaluate {

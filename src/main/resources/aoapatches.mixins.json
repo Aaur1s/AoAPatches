@@ -8,7 +8,9 @@
   ],
   "mixins": [
     "crop_harvest.pam.CropHarvestMixin",
-    "crop_harvest.quark.SimpleHarvestModuleMixin"
+    "crop_harvest.quark.SimpleHarvestModuleMixin",
+    "fluid_registration.AoABlocksMixin",
+    "fluid_registration.FluidUtilBuilderMixin"
   ],
   "injectors": {
     "defaultRequire": 1
